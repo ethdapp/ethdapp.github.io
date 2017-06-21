@@ -271,7 +271,14 @@
   $(window).load(function(){
     if (typeof web3 !== 'undefined'){
       window.web3 = new Web3(web3.currentProvider);
-      launchDapp();
+      web3.version.getNetwork(function(err, net_id){
+        if (net_id == 1){
+            launchDapp();
+        } else {
+          alert('Mainnet이 아닙니다. ethereum 지갑에서 network를 mainnet으로 변경해주세요.')
+        }
+      });
+
     } else {
       console.log('No web3? You should consider trying MetaMask!');
     }
