@@ -1,0 +1,56 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.page-header {
+  max-width: 777px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.sub-header {
+  max-width: 777px;
+  margin: 0 auto;
+}
+
+.form-lockup {
+  max-width: 777px;
+  padding: 15px;
+  margin: 0 auto;
+  border-style: solid;
+}
+
+.form-withdrawal {
+  max-width: 777px;
+}
+
+.div-sub {
+  max-width: 777px;
+  padding: 15px;
+  margin: 0 auto;
+  border-style: solid;
+}
+
+.div-none {
+  display: none;
+}
+
+.sub-container {
+}
+
+.row {
+  min-height: 30px;
+
+  line-height: 30px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

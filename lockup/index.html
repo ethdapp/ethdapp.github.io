@@ -1,0 +1,283 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JohnBher</title>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- dApp specific style -->
+<link href="lockup.css" rel="stylesheet">
+<!-- web3.js -->
+<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<!-- moment.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
+</head>
+<body>
+ <div class="container">
+  <div class="page-header">
+    <h1>::JohnBher::</h1>
+  </div>
+  <div class="sub-container">
+    <div class="sub-header">
+    <h3>봉인</h3>
+    </div>
+    <form name="lockup" class="form-lockup">
+      <div class="row">
+            <div class="col-md-4">지갑주소</div>
+            <div class="col-md-8"><span id="coinbase"></span></div>
+      </div>
+      <div class="row">
+            <div class="col-md-4">앱주소</div>
+            <div class="col-md-8"><span id="dappaddr"></span></div>
+      </div>
+      <div class="row">
+            <div class="col-md-4">만기일</div>
+            <div class="col-md-8"><span id="duedate"></span></div>
+      </div>
+      <div class="row">
+            <div class="col-md-4">이더리움</div>
+            <div class="col-md-8"><input type="text" id="eth" placeholder="ETH" required autofocus></div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"><input type="checkbox" id="agree-fee" required autofocus>서비스 발전기금 0.5%가 차감됨을 동의합니다.</div>
+      </div>
+      <div class="row">
+        <div class="col-md-12"><input type="checkbox" id="agree-noduty" required autofocus>알려지지 않은 취약점에 따른 문제가 있을 수 있음을 인지하고 개발자에게 책임이 없음을 동의합니다.</div>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">봉인</button>
+    </form>
+  </div>
+  <div class="sub-container">
+    <div class="sub-header">
+    <h3>내 계약</h3>
+    </div>
+    <div id="myContract" class="div-sub  div-none">
+      <div class="row">
+            <div class="col-md-4">이더리움</div>
+            <div class="col-md-8"><span id="contractBalance"></span></div>
+      </div>
+      <div class="row">
+            <div class="col-md-4">남은시간</div>
+            <div class="col-md-8"><span id="contractDueDate"></span></div>
+      </div>
+      <form name="withdrawal" class="form-withdrawal">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">출금</button>
+      </form>
+    </div>
+  <div id="noContract" class="div-sub">
+      <div class="row">
+            <div class="col-md-12">봉인된 이더리움이 없습니다.</div>
+      </div>
+    </div>
+  </div>
+  <div class="sub-container">
+    <div class="sub-header">
+    <h3>FAQ</h3>
+    </div>
+    <div class="div-sub">
+      <ul>
+        <li>
+          <p class="Q">
+            Q. 이게 도대체 뭐냐?
+          </p>
+          <p class="A">
+            A. 코인을 맡기면 그 코인을 만기일까지 뽑을 수 없어 강제로 존버 시켜드리는 앱입니다. blockchain 위에 올라가는 앱이기 때문에 제가 수정할 수도 없고 지울 때는 모든 맡겨진 코인을 본래 지갑으로 송금하게 되어 있습니다. 공개된 코드를 확인하세요.
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 어떻게 쓰는거냐? 봉인 눌러도 반응이 없다.
+          </p>
+          <p class="A">
+            A. 가장 쉬운 방법은 아래 참고링크에 있는 metamask plugin을 chrome 브라우져에서 설치합니다 -> 거래소에서 metamask로 코인을 옮깁니다 -> 그 상태에서 본 페이지에 들어오면 금액을 정해서 봉인 버튼을 누를 수 있고 누르면 송금하는 창이 떠서 봉인이 가능합니다
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 내가 돈 맡기면 니가 다 처먹는거 아닙니까?
+          </p>
+          <p class="A">
+            A. 절대 아닙니다. 본 페이지 및 이더리움 앱 자체는 오픈소스로 공개했습니다.<br />코드를 보시면 알겠지만 제가 다 처먹을 수 있는 구조가 아닙니다. 또한 블락체인 위에 올라간 앱(코드)은 제가 중간에 수정할 수도 없습니다. 지울 때는 맡겨진 모든 코인을 원주인에게 돌려주도록 되어 있습니다.<br />제가 먹는 코인은 서비스 발전기금으로 여러분이 주신 0.5% 밖에 안됩니다.(만원에 50원 꼴, 개짤짤이). 여러분이 존나 잘 버로우 하셔서 벌 돈에 비하면 이건 존나 얼마 안되지 않습니까? 저는 여러분의 존버를 돕는 착한 개발자입니다. 절대 다 처먹고 그렇지 않습니다.
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 그래도 못 믿겠다 니가 이 페이지 지우고 튀는거 아니냐?
+          </p>
+          <p class="A">
+            A. 제가 이 페이지를 지워도 blockchain에 올라간 앱이 지워지는게 아닙니다. (여러분의 코인이 지워지지 않듯이)이 앱도 지울수 없고요. 다만, 제가 지울일은 없겠으나 이 웹페이지가 지워질 가능성은 0이 아니니 걱정이 되신다면 github에 가입하시고 http://github.com/ethdapp/ethdapp.github.io repository를 자신의 개정으로 fork 해 가세요. 그러면 제가 지워도 blockchain에 올라간 앱과 서로 통신하는 페이지를 그대로 사용 할 수 있습니다.
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 못 믿겠다. 아무튼 못 믿겠다.
+          </p>
+          <p class="A">
+            A. 응, 꺼져.
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 더 궁금한게 있습니다.
+          </p>
+          <p class="A">
+            A. 궁금한것이 있으면 질문을 추가한 본 페이지를 PR 해주세요.
+          </p>
+        </li>
+        <li>
+          <p class="Q">
+            Q. 페이지가 X같다.
+          </p>
+          <p class="A">
+            A. 네, 죄송합니다. 제가 front-end 개발자가 아니라서요. 미려한 디자인도 PR 해주시면 최대한 반영해보겠습니다.
+          </p>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-container">
+    <div class="sub-header">
+      <h3>참고내용</h3>
+    </div>
+    <div class="div-sub">
+      <ul>
+        <li><a href="http://github.com/ethdapp/ethdapp.github.io">github.com/ethdapp/ethdapp.github.io</a></li>
+        <li><a href="http://solidity.readthedocs.io/en/develop/index.html">solidity</a></li>
+        <li><a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ko">Metamask chrome plugin</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+
+<script type="text/javascript">
+  var dapp_addr = '0x5a8db9d36683b6c45549e47e2c14b1ed2badfc18';
+  var dapp_iface = [{"constant":false,"inputs":[],"name":"destroyContract","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getTotalBalance","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getHaveContract","outputs":[{"name":"doesHave","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"agreeFee","type":"bool"},{"name":"agreeNoduty","type":"bool"}],"name":"lockupCoin","outputs":[{"name":"success","type":"bool"}],"payable":true,"type":"function"},{"constant":true,"inputs":[],"name":"getGlobalDueDate","outputs":[{"name":"date","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getDepositLimit","outputs":[{"name":"min","type":"uint256"},{"name":"max","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getHighestDeposit","outputs":[{"name":"user","type":"address"},{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"withdrawal","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getRemainTime","outputs":[{"name":"isRemain","type":"bool"},{"name":"remainSecond","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"dayAfter","type":"uint256"},{"name":"min","type":"uint256"},{"name":"max","type":"uint256"}],"payable":false,"type":"constructor"},{"payable":true,"type":"fallback"}];
+  var dapp, txid;
+
+  $("#dappaddr").text(dapp_addr);
+
+  function updateCoinbase(){
+    web3.eth.getCoinbase(function(error, result){
+        $("#coinbase").text(result);
+      }
+    );
+  }
+
+  function updateDueDate(){
+    dapp.getGlobalDueDate(function(error, result){
+        $("#duedate").text(moment.unix(result).format("YYYY년 MM월 DD일"));
+      }
+    );
+  }
+
+  function updateMyContract(){
+    dapp.getHaveContract(function(e, r){
+      if (r == true) {
+        $('#myContract').css("display", "block");
+        $('#noContract').css("display", "none");
+
+        dapp.getBalance (function(e, r){
+          console.log('balance ' + r);
+          $("#contractBalance").text(web3.fromWei(r,'ether') + " ETH");
+        });
+
+        dapp.getRemainTime (function(e, r){
+          console.log('remain time ' + r);
+          duration = moment.duration(parseInt(r[1]), 'seconds');
+          $("#contractDueDate").text(parseInt(duration.asDays()) + "일 " + duration.hours() + "시간");
+        });
+      } else {
+        $('#myContract').css("display", "none");
+        $('#noContract').css("display", "block");
+      }
+    });
+  }
+
+  function updateInformation() {
+    updateCoinbase();
+    updateMyContract();
+  }
+
+  function waitForTx(tx)
+  {
+    console.log('wait for txid :' + tx);
+
+    var filter = web3.eth.filter('latest');
+    filter.watch(function(e, r) {
+        console.log('watch ' + r);
+        updateInformation();
+        web3.eth.getTransaction(tx, function(e,r){
+        if (r != null && r.blockNumber > 0) {
+          console.log('get ' + r);
+        }
+      });
+    });
+  }
+
+  function launchDapp(){
+    dapp = web3.eth.contract(dapp_iface).at(dapp_addr);
+    //dapp.getDepositLimit
+    updateDueDate();
+    updateInformation();
+    var filter = web3.eth.filter('latest');
+    filter.watch(function(e, r){
+        console.log('watch ' + r);
+        updateInformation();
+
+    });
+  }
+
+  $("form[name='withdrawal']").submit(function(){
+    dapp.getHaveContract(function(e,r){
+      if (r == true){
+        if (dapp.getRemainTime(function(e,r){
+          if ( r[0] == true ){
+            alert('존버하세요, 출금 할 수 없습니다');
+          } else {
+            dapp.withdrawal(function(e,r){
+              console.log(r);
+            });
+          }
+        }));
+      }
+    });
+   return false;
+  });
+
+  $("form[name='lockup']").submit(function(){
+    var inputEth = $("input#eth").val();
+    var inputDays = $("input#day").val();
+    var agreeFee = 'false';
+    var agreeNoduty = 'false';
+
+    if ($("input#agree-fee").val() == 'on') agreeFee = 'true';
+    if ($("input#agree-noduty").val() == 'on') agreeNoduty = 'true';
+
+    dapp.lockupCoin(inputDays, agreeFee, agreeNoduty, {value: web3.toWei(inputEth, 'ether')}, function (e,r) {
+      waitForTx(r);
+    });
+
+    return false;
+  });
+
+  $(window).load(function(){
+    if (typeof web3 !== 'undefined'){
+      window.web3 = new Web3(web3.currentProvider);
+      launchDapp();
+    } else {
+      console.log('No web3? You should consider trying MetaMask!');
+    }
+
+  });
+
+</script>
+</html>
+
