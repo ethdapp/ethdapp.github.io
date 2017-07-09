@@ -189,23 +189,29 @@
     <div class="modal fade" tabindex="-1" role="dialog" id='envcheckdialog'>
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-           <div class="row">
 
-              <div class="col-lg-12">
-                <h4>지갑 활성화</h4>
-                <p><span class="iswalletactivated"></span></p>
-              </div>
+        <div class="jumbotron">
+          <h1>Prerequisite</h1>
+          <p class="lead">ethereum dapp을 사용하기 위해서는 지갑으로 접속해야 합니다.<br />로컬지갑(mist) 또는 chrome extension을 사용할 수 있습니다.<br />그리고 현재 이더리움에는 많은 테스트 네트워크가 있습니다.<br />꼭 Mainnet으로 접속해야 합니다.</p>
 
-              <div class="col-lg-12">
-                <h4>지갑 네트워크</h4>
-                <p><span class="walletnetwork"></span></p>
-              </div>
+        </div>
 
-              <div class="col-lg-12">
-                <h4>이더리움 잔고</h4>
-                <p><span class="localbalance"></span>0 ETH</p>
-              </div>
-            </div>
+        <div class="row marketing">
+          <div class="col-lg-12">
+            <h4>지갑 활성화</h4>
+            <p><span class="iswalletactivated"></span></p>
+          </div>
+
+          <div class="col-lg-12">
+            <h4>지갑 네트워크</h4>
+            <p><span class="walletnetwork"></span></p>
+          </div>
+
+          <div class="col-lg-12">
+            <h4>이더리움 잔고</h4>
+            <p><span class="localbalance"></span>0 ETH</p>
+          </div>
+
         </div>
       </div>
     </div>
@@ -219,8 +225,8 @@
 </body>
 
 <script type="text/javascript">
-  var dapp_addr = '0x5a8db9d36683b6c45549e47e2c14b1ed2badfc18';
-  var dapp_iface = [{ "constant": false, "inputs": [], "name": "destroyContract", "outputs": [], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getBalance", "outputs": [{ "name": "balance", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getTotalBalance", "outputs": [{ "name": "balance", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getHaveContract", "outputs": [{ "name": "doesHave", "type": "bool" }], "payable": false, "type": "function" }, { "constant": false, "inputs": [{ "name": "agreeFee", "type": "bool" }, { "name": "agreeNoduty", "type": "bool" }], "name": "lockupCoin", "outputs": [{ "name": "success", "type": "bool" }], "payable": true, "type": "function" }, { "constant": true, "inputs": [], "name": "getGlobalDueDate", "outputs": [{ "name": "date", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getDepositLimit", "outputs": [{ "name": "min", "type": "uint256" }, { "name": "max", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getHighestDeposit", "outputs": [{ "name": "user", "type": "address" }, { "name": "balance", "type": "uint256" }], "payable": false, "type": "function" }, { "constant": false, "inputs": [], "name": "withdrawal", "outputs": [{ "name": "success", "type": "bool" }], "payable": false, "type": "function" }, { "constant": true, "inputs": [], "name": "getRemainTime", "outputs": [{ "name": "isRemain", "type": "bool" }, { "name": "remainSecond", "type": "uint256" }], "payable": false, "type": "function" }, { "inputs": [{ "name": "dayAfter", "type": "uint256" }, { "name": "min", "type": "uint256" }, { "name": "max", "type": "uint256" }], "payable": false, "type": "constructor" }, { "payable": true, "type": "fallback" }];
+  var dapp_addr = '0x5e8946f5a0178e75b9e224d716922f55304bf6dd';
+  var dapp_iface = [{"constant":false,"inputs":[],"name":"destroyContract","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getBalance","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getTotalBalance","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getHaveContract","outputs":[{"name":"doesHave","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"agreeFee","type":"bool"},{"name":"agreeNoduty","type":"bool"}],"name":"lockupCoin","outputs":[{"name":"success","type":"bool"}],"payable":true,"type":"function"},{"constant":true,"inputs":[],"name":"getGlobalDueDate","outputs":[{"name":"date","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getDepositLimit","outputs":[{"name":"min","type":"uint256"},{"name":"max","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getHighestDeposit","outputs":[{"name":"user","type":"address"},{"name":"balance","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"withdrawal","outputs":[{"name":"success","type":"bool"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"getRemainTime","outputs":[{"name":"isRemain","type":"bool"},{"name":"remainSecond","type":"uint256"}],"payable":false,"type":"function"},{"inputs":[{"name":"dayAfter","type":"uint256"},{"name":"min","type":"uint256"},{"name":"max","type":"uint256"}],"payable":false,"type":"constructor"},{"payable":true,"type":"fallback"}];
   var dapp, txid, walletaddr, lbalance;
 
   $(".dappaddr").text(dapp_addr);
@@ -312,7 +318,7 @@
     });
   }
 
-  $("form[name='withdrawal']").submit(function () {
+  $("#withdrawal").click(function () {
     dapp.getHaveContract(function (e, r) {
       if (r == true) {
         if (dapp.getRemainTime(function (e, r) {
@@ -324,6 +330,8 @@
             });
           }
         }));
+      } else {
+        alert('계약이 없습니다.');
       }
     });
     return false;
@@ -353,6 +361,7 @@
     } else {
       console.log('No web3? You should consider trying MetaMask!');
       $('.iswalletactivated').html('미설치(<a href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn">설치하기</a>)');
+      $("#envcheckdialog").modal();
     }
 
   });
